@@ -13,4 +13,7 @@
 
     <dimen name="restaurant_padding">10dp</dimen>
     <dimen name="restaurant_padding_big">15dp</dimen>
+
+    <dimen name="textview_size">90dp</dimen>
+
 </resources>
