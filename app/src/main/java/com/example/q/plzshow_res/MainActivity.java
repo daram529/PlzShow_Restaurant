@@ -1,6 +1,9 @@
 package com.example.q.plzshow_res;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -12,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +27,14 @@ import android.widget.TextView;
 import com.example.q.plzshow_res.Fragment.ATabFragment;
 import com.example.q.plzshow_res.Fragment.BTabFragment;
 import com.example.q.plzshow_res.Fragment.CTabFragment;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,10 +53,49 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+    private Handler nameHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Log.d("cs496_handler", msg.obj+"");
+            sendToServer server = new sendToServer();
+            server.send((JSONObject) msg.obj);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AccessToken token = AccessToken.getCurrentAccessToken();
+        GraphRequest graphRequest = GraphRequest.newMeRequest(token, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                try {
+                    JSONObject object = new JSONObject();
+
+                    SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("user_id", jsonObject.getString("id"));
+                    editor.commit();
+
+                    object.put("type", "REST_LOGIN");
+                    object.put("user_id", jsonObject.getString("id"));
+                    object.put("name", jsonObject.getString("name"));
+                    object.put("token", FirebaseInstanceId.getInstance().getToken());
+
+                    Message message = new Message();
+                    message.obj = object;
+                    nameHandler.sendMessage(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Bundle param = new Bundle();
+        param.putString("fields", "id, name");
+        graphRequest.setParameters(param);
+        graphRequest.executeAsync();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
