@@ -33,6 +33,7 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
     private static final int COLOR_ORANGE = Color.parseColor("#d8d841");
     private static final int COLOR_RED = Color.parseColor("#d84141");
     private static final int COLOR_GREEN = Color.parseColor("#41d88c");
+    private static final int COLOR_BLACK = Color.parseColor("#000000");
 
     private final Activity activity;
     private JSONArray resArray;
@@ -50,6 +51,8 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
     String _request;
     String _people;
     String _rest_id;
+
+    boolean accepted = false;
 
     public reservationAdapter(Activity activity, JSONArray resArray) {
         assert activity != null;
@@ -94,9 +97,17 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                 holder.status_color.invalidate();
                 holder.reserv_status.setText("확인함");
             } else if (_status_msg.equals("ACCEPTED")) {
-                holder.status_color.setBackgroundColor(COLOR_GREEN);
+                if (_status_res.equals("UNKNOWN_YET")) {
+                    holder.status_color.setBackgroundColor(COLOR_GREEN);
+                    holder.reserv_status.setText("수락함");
+                } else if (_status_res.equals("SHOWED")) {
+                    holder.status_color.setBackgroundColor(COLOR_BLACK);
+                    holder.reserv_status.setText("성사");
+                } else if (_status_res.equals("NOT_SHOWED")) {
+                    holder.status_color.setBackgroundColor(COLOR_BLACK);
+                    holder.reserv_status.setText("부도");
+                }
                 holder.status_color.invalidate();
-                holder.reserv_status.setText("수락함");
             } else if (_status_msg.equals("DECLINED")) {
                 holder.status_color.setBackgroundColor(COLOR_RED);
                 holder.status_color.invalidate();
@@ -128,11 +139,12 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                     TextView fee = (TextView) dialog.findViewById(R.id.reserv_detail_fee);
                     TextView people = (TextView) dialog.findViewById(R.id.reserv_detail_people);
                     TextView request = (TextView) dialog.findViewById(R.id.reserv_detail_request);
-                    Button accept = (Button) dialog.findViewById(R.id.reserv_detail_accept);
-                    Button decline = (Button) dialog.findViewById(R.id.reserv_detail_decline);
+                    final Button accept = (Button) dialog.findViewById(R.id.reserv_detail_accept);
+                    final Button decline = (Button) dialog.findViewById(R.id.reserv_detail_decline);
 
                     try {
                         _status_msg = resArray.optJSONObject(position).getString("status_msg");
+                        _status_res = resArray.optJSONObject(position).getString("status_res");
                         _rest_phone = resArray.optJSONObject(position).getString("rest_phone");
                         _reserv_id = resArray.optJSONObject(position).getString("id");
                         Log.e("REST_PHONE", _rest_phone);
@@ -167,10 +179,24 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                             }
                         } else if (_status_msg.equals("CHECKED")) {
                         } else if (_status_msg.equals("ACCEPTED")) {
-                            accept.setClickable(false);
-                            accept.setEnabled(false);
-                            decline.setClickable(false);
-                            decline.setEnabled(false);
+                            accept.setText("왔어요");
+                            decline.setText("안왔어요");
+                            if (_status_res.equals("UNKNOWN_YET")) {
+                                accept.setClickable(true);
+                                accept.setEnabled(true);
+                                decline.setClickable(true);
+                                decline.setEnabled(true);
+                            } else if (_status_res.equals("SHOWED")) {
+                                accept.setClickable(false);
+                                accept.setEnabled(false);
+                                decline.setClickable(false);
+                                decline.setEnabled(false);
+                            } else if (_status_res.equals("NOT_SHOWED")) {
+                                accept.setClickable(false);
+                                accept.setEnabled(false);
+                                decline.setClickable(false);
+                                decline.setEnabled(false);
+                            }
                         } else if (_status_msg.equals("DECLINED")) {
                             accept.setClickable(false);
                             accept.setEnabled(false);
@@ -187,45 +213,12 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                         try {
                             SharedPreferences pref = activity.getSharedPreferences("pref", Context.MODE_PRIVATE);
                             _rest_id = pref.getString("rest_id", "");
-
-                            // GENERATE REQUEST
-                            JSONObject req = new JSONObject();
-                            req.put("type", "ACCEPT_RESERV");
-                            req.put("rest_id", _rest_id);
-                            req.put("reserv_id", _reserv_id);
-
-                            // GET RESPONSE
-                            JSONObject res = new sendToServer.sendJSON("http://52.78.200.87:3000", req.toString(), "application/json").execute().get();
-                            if (res == null) {
-                                Log.e("null response", "res = null");
-                            } else if (!res.has("result") || res.get("result").equals("failed")) {
-                                Log.e("failed", res.toString());
-                            } else {
-                                dialog.dismiss();
-                                Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
-                                notifyDataSetChanged();
-                                // REFRESH
-                            }
-
-                            // PARSE RESPONSE
-                            Log.e("CANCEL_RESERV", res.getString("result"));
-                            Log.e("CANCEL_RESERV", res.getString("description"));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        }
-                    });
-
-                    decline.setOnClickListener(new Button.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                SharedPreferences pref = activity.getSharedPreferences("pref", Context.MODE_PRIVATE);
-                                _rest_id = pref.getString("rest_id", "");
-
+                            Log.e("STATUS_MSG", _status_msg);
+                            Log.e("STATUS_RES", _status_res);
+                            if (_status_msg.equals("ACCEPTED") && _status_res.equals("UNKNOWN_YET")) {
                                 // GENERATE REQUEST
                                 JSONObject req = new JSONObject();
-                                req.put("type", "DECLINE_RESERV");
+                                req.put("type", "RESULT_SHOWED");
                                 req.put("rest_id", _rest_id);
                                 req.put("reserv_id", _reserv_id);
 
@@ -241,10 +234,83 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                                     notifyDataSetChanged();
                                     // REFRESH
                                 }
+                            } else {
+                                // GENERATE REQUEST
+                                JSONObject req = new JSONObject();
+                                req.put("type", "ACCEPT_RESERV");
+                                req.put("rest_id", _rest_id);
+                                req.put("reserv_id", _reserv_id);
 
-                                // PARSE RESPONSE
-                                Log.e("CANCEL_RESERV", res.getString("result"));
-                                Log.e("CANCEL_RESERV", res.getString("description"));
+                                // GET RESPONSE
+                                JSONObject res = new sendToServer.sendJSON("http://52.78.200.87:3000", req.toString(), "application/json").execute().get();
+                                if (res == null) {
+                                    Log.e("null response", "res = null");
+                                } else if (!res.has("result") || res.get("result").equals("failed")) {
+                                    Log.e("failed", res.toString());
+                                } else {
+                                    dialog.dismiss();
+                                    Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
+                                    notifyDataSetChanged();
+                                    accept.setEnabled(false);
+                                    accept.setClickable(false);
+                                    // REFRESH
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        }
+                    });
+
+                    decline.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                SharedPreferences pref = activity.getSharedPreferences("pref", Context.MODE_PRIVATE);
+                                _rest_id = pref.getString("rest_id", "");
+                                Log.e("STATUS_MSG", _status_msg);
+                                Log.e("STATUS_RES", _status_res);
+                                if (_status_msg.equals("ACCEPTED") && _status_res.equals("UNKNOWN_YET")) {
+                                    // GENERATE REQUEST
+                                    JSONObject req = new JSONObject();
+                                    req.put("type", "RESULT_NOT_SHOWED");
+                                    req.put("rest_id", _rest_id);
+                                    req.put("reserv_id", _reserv_id);
+
+                                    // GET RESPONSE
+                                    JSONObject res = new sendToServer.sendJSON("http://52.78.200.87:3000", req.toString(), "application/json").execute().get();
+                                    if (res == null) {
+                                        Log.e("null response", "res = null");
+                                    } else if (!res.has("result") || res.get("result").equals("failed")) {
+                                        Log.e("failed", res.toString());
+                                    } else {
+                                        dialog.dismiss();
+                                        Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
+                                        notifyDataSetChanged();
+                                        decline.setEnabled(false);
+                                        decline.setClickable(false);
+                                        // REFRESH
+                                    }
+                                } else {
+                                    // GENERATE REQUEST
+                                    JSONObject req = new JSONObject();
+                                    req.put("type", "DECLINE_RESERV");
+                                    req.put("rest_id", _rest_id);
+                                    req.put("reserv_id", _reserv_id);
+
+                                    // GET RESPONSE
+                                    JSONObject res = new sendToServer.sendJSON("http://52.78.200.87:3000", req.toString(), "application/json").execute().get();
+                                    if (res == null) {
+                                        Log.e("null response", "res = null");
+                                    } else if (!res.has("result") || res.get("result").equals("failed")) {
+                                        Log.e("failed", res.toString());
+                                    } else {
+                                        dialog.dismiss();
+                                        Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
+                                        notifyDataSetChanged();
+                                        // REFRESH
+                                    }
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
