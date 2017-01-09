@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
                     SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("user_id", jsonObject.getString("id"));
+                    editor.putString("rest_id", jsonObject.getString("id"));
                     editor.commit();
 
                     object.put("type", "REST_LOGIN");
-                    object.put("user_id", jsonObject.getString("id"));
+                    object.put("rest_id", jsonObject.getString("id"));
                     object.put("name", jsonObject.getString("name"));
                     object.put("token", FirebaseInstanceId.getInstance().getToken());
 
@@ -178,11 +178,11 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "A Tab";
+                    return "내 레스토랑";
                 case 1:
-                    return "B Tab";
+                    return "예약신청현황";
                 case 2:
-                    return "C Tab";
+                    return "수락한 예약";
             }
             return null;
         }
