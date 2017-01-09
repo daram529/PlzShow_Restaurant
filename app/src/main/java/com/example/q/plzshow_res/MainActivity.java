@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_restaurant);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_message_1);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_reserve);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_reservation);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
