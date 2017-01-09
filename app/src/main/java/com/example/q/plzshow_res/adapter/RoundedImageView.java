@@ -1,4 +1,4 @@
-package com.example.q.plzshow_res.adapter;
+package com.example.q.plzshow_res.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
