@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.q.plzshow_res.App;
 import com.example.q.plzshow_res.R;
 import com.example.q.plzshow_res.sendToServer;
 
@@ -122,6 +123,12 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
             holder.reserv_time.setText(formatDateTimeString(_reserv_time) + " ");
             holder.reserv_num_people.setText("(" + _people + "명)");
             holder.reserv_elapsed.setText(passingTime(_send_time) + " 받음  /");
+
+            holder.user_name.setTypeface(App.NanumBarunGothicBold);
+            holder.reserv_time.setTypeface(App.NanumBarunGothicLight);
+            holder.reserv_num_people.setTypeface(App.NanumBarunGothicLight);
+            holder.reserv_elapsed.setTypeface(App.NanumBarunGothicLight);
+            holder.reserv_status.setTypeface(App.NanumBarunGothicLight);
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
