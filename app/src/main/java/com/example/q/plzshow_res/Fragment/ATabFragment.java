@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +19,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.q.plzshow_res.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import com.example.q.plzshow_res.restaurant_gallery;
+import com.example.q.plzshow_res.sendToServer;
+
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +63,10 @@ import static android.content.Context.MODE_PRIVATE;
 public class ATabFragment extends Fragment {
     String rest_id;
     ImageView image;
+
+    int PICK_IMAGE_MULTIPLE = 1;
+    String imageEncoded;
+    List<String> imagesEncodedList;
 
 
     public ATabFragment() {
