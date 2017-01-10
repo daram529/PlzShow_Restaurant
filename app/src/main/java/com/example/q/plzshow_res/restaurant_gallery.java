@@ -160,7 +160,6 @@ public class restaurant_gallery extends AppCompatActivity {
             else if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
                     && null != data) {
                 // Get the Image from data
-
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
                 JSONArray imagesEncodedList= new JSONArray();
                 if (data.getClipData() != null) {
@@ -184,6 +183,11 @@ public class restaurant_gallery extends AppCompatActivity {
                     }
                     Log.d("No of image", imagesEncodedList.length()+"");
 
+                } else if (data.getData() != null){
+                    Uri mImageUri = data.getData();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+                    image64Encoded = base64Encode(bitmap);
+                    imagesEncodedList.put(image64Encoded);
                 }
                 uploadImage(imagesEncodedList);
             } else {

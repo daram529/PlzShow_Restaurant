@@ -165,7 +165,7 @@ public class ATabFragment extends Fragment {
                     price.setText(res.getString("price"));
 
                 if (!res.getString("reserv_price").equals(""))
-                    reserv_price.setText(res.getString("reserv_price"));
+                    reserv_price.setText(res.getString("reserv_price")+"원");
 
                 coin.setText(res.getString("coin")+"원");
             }

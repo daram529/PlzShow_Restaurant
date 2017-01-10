@@ -46,6 +46,7 @@
                     android:background="#303030"
                     android:inputType = "textShortMessage"
                     android:hint="예) 류니끄"
+                    android:textSize="@dimen/medium_text"
                     android:focusableInTouchMode="true"/>
             </LinearLayout>
 
@@ -68,6 +69,7 @@
                     android:inputType = "textShortMessage"
                     android:background="#303030"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/medium_text"
                     android:layout_height="wrap_content"
                     android:hint="예) 010-9696-5515" />
             </LinearLayout>
@@ -91,6 +93,7 @@
                     android:layout_width="wrap_content"
                     android:maxLines ="1"
                     android:background="#303030"
+                    android:textSize="@dimen/medium_text"
                     android:inputType = "textShortMessage"
                     android:layout_height="wrap_content"
                     android:hint="예) 대전시 어은동 101-10" />
@@ -116,6 +119,7 @@
                     android:maxLines ="1"
                     android:background="#303030"
                     android:inputType = "textShortMessage"
+                    android:textSize="@dimen/medium_text"
                     android:layout_height="wrap_content"
                     android:hint="예) 가로수길"/>
             </LinearLayout>
@@ -137,6 +141,7 @@
                 <EditText
                     android:id="@+id/rest_type"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/medium_text"
                     android:maxLines ="1"
                     android:inputType = "textShortMessage"
                     android:background="#303030"
@@ -163,6 +168,7 @@
                     android:layout_width="wrap_content"
                     android:background="#303030"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/medium_text"
                     android:hint="예) 서래마을에 수퍼푸드를 주재료로 선보이는 브런치 레스토랑"/>
             </LinearLayout>
 
@@ -185,6 +191,7 @@
                 <EditText
                     android:id="@+id/oper_time"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/medium_text"
                     android:layout_height="wrap_content"
                     android:background="#303030"
                     android:hint="예) 12:00 ~ 22:00"/>
@@ -209,6 +216,7 @@
                 <EditText
                     android:id="@+id/rest_time"
                     android:layout_width="wrap_content"
+                    android:textSize="@dimen/medium_text"
                     android:background="#303030"
                     android:layout_height="wrap_content"
                     android:hint="예) 14:30 ~ 17:00"/>
@@ -234,6 +242,7 @@
                     android:layout_height="wrap_content"
                     android:background="#303030"
                     android:maxLines ="1"
+                    android:textSize="@dimen/medium_text"
                     android:inputType = "textShortMessage"
                     android:hint="예) 월요일"/>
             </LinearLayout>
@@ -258,6 +267,7 @@
                     android:maxLines ="1"
                     android:background="#303030"
                     android:inputType = "textShortMessage"
+                    android:textSize="@dimen/medium_text"
                     android:layout_height="wrap_content"
                     android:hint="예) 1만원 ~ 2만원"/>
             </LinearLayout>
@@ -281,6 +291,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines ="1"
+                    android:textSize="@dimen/medium_text"
                     android:background="#303030"
                     android:inputType = "textShortMessage"
                     android:hint="예) 10000"/>
