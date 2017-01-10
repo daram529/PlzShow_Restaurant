@@ -50,6 +50,9 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
     String _people;
     String _rest_id;
 
+    ViewGroup parent;
+    int viewType;
+
     boolean accepted = false;
 
     public reservationAdapter(Activity activity, JSONArray resArray) {
@@ -66,11 +69,14 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.reservation_item, parent, false);
+        this.parent = parent;
+        this.viewType = viewType;
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        ViewHolder holder_ = holder;
         holder.position = position;
         final JSONObject resobj = resArray.optJSONObject(position);
         try {
@@ -115,7 +121,7 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
             holder.user_name.setText(_user_name);
             holder.reserv_time.setText(formatDateTimeString(_reserv_time) + " ");
             holder.reserv_num_people.setText("(" + _people + "명)");
-            holder.reserv_elapsed.setText(passingTime(_send_time) + " 보냄  /");
+            holder.reserv_elapsed.setText(passingTime(_send_time) + " 받음  /");
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -172,6 +178,8 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                                 } else if (!res.has("result") || res.get("result").equals("failed")) {
                                     Log.e("failed", res.toString());
                                 }
+                                onCreateViewHolder(parent, viewType);
+                                notifyDataSetChanged();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -247,6 +255,7 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                                     Log.e("failed", res.toString());
                                 } else {
                                     dialog.dismiss();
+                                    resArray.remove(position);
                                     Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
                                     notifyDataSetChanged();
                                     accept.setEnabled(false);
@@ -257,6 +266,7 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        notifyDataSetChanged();
                         }
                     });
 
@@ -285,6 +295,7 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                                         dialog.dismiss();
                                         Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
                                         notifyDataSetChanged();
+                                        onCreateViewHolder(parent, viewType);
                                         decline.setEnabled(false);
                                         decline.setClickable(false);
                                         // REFRESH
@@ -306,12 +317,14 @@ public class reservationAdapter extends RecyclerView.Adapter<reservationAdapter.
                                         dialog.dismiss();
                                         Toast.makeText(activity.getApplicationContext(), res.getString("description"), Toast.LENGTH_SHORT).show();
                                         notifyDataSetChanged();
+                                        onCreateViewHolder(parent, viewType);
                                         // REFRESH
                                     }
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                            notifyDataSetChanged();
                         }
                     });
                 }
