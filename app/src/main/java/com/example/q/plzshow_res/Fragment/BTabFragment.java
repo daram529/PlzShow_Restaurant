@@ -2,7 +2,6 @@ package com.example.q.plzshow_res.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.q.plzshow_res.R;
-import com.example.q.plzshow_res.adapter.reservationAdapter;
+import com.example.q.plzshow_res.Adapter.reservationAdapter;
 import com.example.q.plzshow_res.sendToServer;
 
 import org.json.JSONArray;

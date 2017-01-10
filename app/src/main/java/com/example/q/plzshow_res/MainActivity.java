@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
                     object.put("type", "REST_LOGIN");
                     object.put("rest_id", jsonObject.getString("id"));
-                    object.put("name", jsonObject.getString("name"));
                     object.put("token", FirebaseInstanceId.getInstance().getToken());
 
                     Message message = new Message();

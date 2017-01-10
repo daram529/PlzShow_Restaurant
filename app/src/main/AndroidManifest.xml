@@ -41,10 +41,14 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".restaurant_gallery"
             android:theme="@style/Theme.AppCompat"/>
+
+        <activity android:name=".fullScreenActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>

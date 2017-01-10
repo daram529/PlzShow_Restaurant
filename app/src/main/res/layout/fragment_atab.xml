@@ -7,6 +7,28 @@
 
     <include layout="@layout/fragment_atab_content" />
 
+    <!-- Footer aligned to bottom -->
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        app:layout_anchorGravity="bottom">
 
+        <TextView
+            android:id="@+id/res_full_reserve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/small_text"
+            android:textColor="@color/white"
+            android:padding="15dp"
+            android:text = "저장하기"/>
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

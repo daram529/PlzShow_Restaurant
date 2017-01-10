@@ -1,6 +1,7 @@
 package com.example.q.plzshow_res.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.example.q.plzshow_res.fullScreenActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +30,12 @@ public class gridviewAdapter extends BaseAdapter{
 
     private Activity activity;
     private JSONArray photoArray;
+    private int imageWidth;
 
-    public gridviewAdapter(Activity activity, JSONArray photoArray){
+    public gridviewAdapter(Activity activity, JSONArray photoArray, int imageWidth){
         this.activity = activity;
         this.photoArray = photoArray;
+        this.imageWidth = imageWidth;
     }
 
     @Override
@@ -55,8 +60,6 @@ public class gridviewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
         try {
             ImageView imageView;
             if (convertView == null){
@@ -66,10 +69,17 @@ public class gridviewAdapter extends BaseAdapter{
             }
             String url = photoArray.getJSONObject(position).getString("photo");
             Bitmap img = new loadPhoto().execute(url).get();
+            if (img.getHeight() > 1024 || img.getWidth() > 1024){
+                img = img.createScaledBitmap(img, img.getWidth()/2, img.getHeight()/2, false);
+            }
+
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setLayoutParams(new GridView.LayoutParams(imageWidth,
+                    imageWidth));
 
             imageView.setImageBitmap(img);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setLayoutParams(new GridView.LayoutParams(50, 50));
+
+            imageView.setOnClickListener(new OnImageClickListener(position));
 
             return imageView;
         } catch (JSONException e) {
@@ -82,7 +92,28 @@ public class gridviewAdapter extends BaseAdapter{
         return null;
     }
 
-    private class loadPhoto extends AsyncTask<String, Void, Bitmap> {
+    class OnImageClickListener implements View.OnClickListener {
+
+        int _postion;
+
+        // constructor
+        public OnImageClickListener(int position) {
+            this._postion = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            // on selecting grid view image
+            // launch full screen activity
+            Intent i = new Intent(activity, fullScreenActivity.class);
+            i.putExtra("position", _postion);
+            i.putExtra("photoArray", photoArray.toString());
+            activity.startActivity(i);
+        }
+
+    }
+
+    public class loadPhoto extends AsyncTask<String, Void, Bitmap> {
 
         public loadPhoto() {
         }

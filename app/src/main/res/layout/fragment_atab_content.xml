@@ -18,34 +18,41 @@
             android:layout_height="250dp" />
 
         <LinearLayout
+            android:layout_marginBottom="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/restaurant_padding_big"
-            android:paddingRight="@dimen/restaurant_padding_big">
+            android:padding = "20dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:paddingTop="@dimen/restaurant_padding"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="@dimen/textview_size"
                     android:layout_height="wrap_content"
                     android:text="식당이름:"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/medium_text" />
+                    android:textSize="@dimen/medium_text"/>
 
                 <EditText
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="예) 류니끄"/>
+                    android:maxLines ="1"
+                    android:background="#303030"
+                    android:inputType = "textShortMessage"
+                    android:hint="예) 류니끄"
+                    android:focusableInTouchMode="true"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -57,6 +64,9 @@
 
                 <EditText
                     android:id="@+id/phone"
+                    android:maxLines ="1"
+                    android:inputType = "textShortMessage"
+                    android:background="#303030"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="예) 010-9696-5515" />
@@ -66,6 +76,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -78,6 +89,9 @@
                 <EditText
                     android:id="@+id/address"
                     android:layout_width="wrap_content"
+                    android:maxLines ="1"
+                    android:background="#303030"
+                    android:inputType = "textShortMessage"
                     android:layout_height="wrap_content"
                     android:hint="예) 대전시 어은동 101-10" />
             </LinearLayout>
@@ -86,6 +100,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -98,6 +113,9 @@
                 <EditText
                     android:id="@+id/simple_address"
                     android:layout_width="wrap_content"
+                    android:maxLines ="1"
+                    android:background="#303030"
+                    android:inputType = "textShortMessage"
                     android:layout_height="wrap_content"
                     android:hint="예) 가로수길"/>
             </LinearLayout>
@@ -106,6 +124,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -116,8 +135,11 @@
                     android:textSize="@dimen/medium_text" />
 
                 <EditText
-                    android:id="@+id/type"
+                    android:id="@+id/rest_type"
                     android:layout_width="wrap_content"
+                    android:maxLines ="1"
+                    android:inputType = "textShortMessage"
+                    android:background="#303030"
                     android:layout_height="wrap_content"
                     android:hint="예) 양식"/>
             </LinearLayout>
@@ -126,6 +148,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -138,6 +161,7 @@
                 <EditText
                     android:id="@+id/descrip"
                     android:layout_width="wrap_content"
+                    android:background="#303030"
                     android:layout_height="wrap_content"
                     android:hint="예) 서래마을에 수퍼푸드를 주재료로 선보이는 브런치 레스토랑"/>
             </LinearLayout>
@@ -146,12 +170,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="@dimen/textview_size"
                     android:layout_height="wrap_content"
                     android:text="운영시간:"
+                    android:maxLines ="1"
+                    android:inputType = "textShortMessage"
                     android:textColor="@color/white"
                     android:textSize="@dimen/medium_text" />
 
@@ -159,18 +186,22 @@
                     android:id="@+id/oper_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="#303030"
                     android:hint="예) 12:00 ~ 22:00"/>
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="@dimen/textview_size"
                     android:layout_height="wrap_content"
+                    android:maxLines ="1"
+                    android:inputType = "textShortMessage"
                     android:text="쉬는시간:"
                     android:textColor="@color/white"
                     android:textSize="@dimen/medium_text" />
@@ -178,6 +209,7 @@
                 <EditText
                     android:id="@+id/rest_time"
                     android:layout_width="wrap_content"
+                    android:background="#303030"
                     android:layout_height="wrap_content"
                     android:hint="예) 14:30 ~ 17:00"/>
             </LinearLayout>
@@ -185,6 +217,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -199,6 +232,9 @@
                     android:id="@+id/holiday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="#303030"
+                    android:maxLines ="1"
+                    android:inputType = "textShortMessage"
                     android:hint="예) 월요일"/>
             </LinearLayout>
 
@@ -206,6 +242,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -218,6 +255,9 @@
                 <EditText
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
+                    android:maxLines ="1"
+                    android:background="#303030"
+                    android:inputType = "textShortMessage"
                     android:layout_height="wrap_content"
                     android:hint="예) 1만원 ~ 2만원"/>
             </LinearLayout>
@@ -226,6 +266,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
                 android:orientation="horizontal">
 
                 <TextView
@@ -239,9 +280,32 @@
                     android:id="@+id/reserv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines ="1"
+                    android:background="#303030"
+                    android:inputType = "textShortMessage"
                     android:hint="예) 10000"/>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/restaurant_padding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="@dimen/textview_size"
+                    android:layout_height="wrap_content"
+                    android:text="내 지갑:"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/medium_text" />
+
+                <TextView
+                    android:id="@+id/coin"
+                    android:textSize="@dimen/medium_text"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
         </LinearLayout>
 
